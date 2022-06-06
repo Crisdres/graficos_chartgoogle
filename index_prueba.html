@@ -27,18 +27,22 @@ function drawChart() {
 
 // creamos la tabla.
                         // creamos el objeto 
-                                          // definimos el tipo de datos y el nombre de la columna
-                     
-                        var data = google.visualization.arrayToDataTable([
-                              ['Country', 'Popularity'],
-                              ['Germany', 200],
-                              ['United States', 300],
-                              ['Brazil', 400],
-                              ['Canada', 500],
-                              ['France', 600],
-                              ['RU', 700]
-                              ]);
+                        var data = new google.visualization.DataTable();
 
+                        // definimos el tipo de datos y el nombre de la columna
+                        data.addColumn('string', 'Conocimientos');
+                        data.addColumn('number', 'Proporcion');
+                        // añadimos los datos de las filas
+                        data.addRows(
+                        [
+                              ['Estadistica Descriptiva', 1],
+                              ['Análisis Multidimencional', 2],
+                              ['Econometría', 2],
+                              ['Diseños Experimentales', 2],
+                              ['Cluster Análisis', 2]
+                        ]);
+
+                       
 
                         // Set options for Sarah's pie chart.
                         var options = 
@@ -49,41 +53,24 @@ function drawChart() {
                               is3D: true
                         };
 
+                        // Instantiate and draw the chart for Sarah's pizza.
+                        
+                        var formatter = new google.visualization.NumberFormat({prefix: '$'});
+                        formatter.format(data, 1); // Apply formatter to second column
 
                         var view = new google.visualization.DataView(data);
                         view.setColumns([0, 1]);
 
                         var table = new google.visualization.Table(document.getElementById('table_sort_div'));
-                        table.draw(view,options);
+                        table.draw(view);
 
-                        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-                        chart.draw(view,options);
-
-                        var chart1 = new google.visualization.PieChart(document.getElementById ('GraficoPie'));
-                        chart1.draw(view,options);
-
-                        var chart2 = new google.visualization.BarChart(document.getElementById ('Graficobar'));
-                        chart2.draw(view,options);
-
-                        var chart3 = new google.visualization.ColumnChart(document.getElementById ('Graficobarcolumn'));
-                        chart3.draw(view,options);
-
-                        var chart4 = new google.visualization.BarChart(document.getElementById('chart_sort_div'));
-                        chart4.draw(view,options);
+                        var chart = new google.visualization.BarChart(document.getElementById('chart_sort_div'));
+                        chart.draw(view);
 
                         google.visualization.events.addListener(table, 'sort',
                         function(event) {
                         data.sort([{column: event.column, desc: !event.ascending}]);
                         chart.draw(view);
-                        chart1.draw(view);
-                        chart2.draw(view);
-                        chart3.draw(view);
-                        chart4.draw(view);                        // Instantiate and draw the chart for Sarah's pizza.
-
-
-
-                     
-
                         }
                         );               
 
@@ -106,23 +93,14 @@ function drawChart() {
                   </div>
             </nav>
       </header>
-      <!--Table and divs that hold the pie charts-->
-      <table class="columns">
-            <tr>
-                  
-                  <td><div id="Graficobar" style="border: 1px solid #ccc"></div></td>
-                  <td><div id="Graficobarcolumn" style="border: 1px solid #ccc"></div></td>    
-            </tr>
-            <tr>
-                  <td><div id="GraficoPie" style="border: 1px solid #ccc"></div></td>
-                  <td><div id="regions_div" style="border: 1px solid #ccc"></div></td>
-            </tr>
-            <tr>
-                  <td><div id="table_sort_div" style="border: 1px solid #ccc"></div></td>
-                  <td><div id="chart_sort_div" style="border: 1px solid #ccc"></div></td>
-
-                  
-            </tr>
+      <table>
+          <tr>
+              <td>
+                <div id="chart_sort_div"></div>
+                <div id="table_sort_div"></div>
+              </td>
+          </tr>
       </table>
+
 </body>
 </html>
